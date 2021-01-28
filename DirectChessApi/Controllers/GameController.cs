@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using DirectChessApi.Models.Request;
+using DirectChessApi.Models.Response;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace DirectChessApi.Controllers
 {
@@ -11,6 +9,28 @@ namespace DirectChessApi.Controllers
     [ApiController]
     public class GameController : ControllerBase
     {
-        CreateGame
+        /// <summary>
+        /// Create a new chess game
+        /// </summary>
+        /// <param name="createGameRequest"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult CreateGame(CreateGameRequest createGameRequest)
+        {
+            var response = new CreateGameResponse();
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Get a chess game
+        /// </summary>
+        /// <param name="gameKey"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult GetGame(string gameKey)
+        {
+            var response = new GameResponse(); // ... get game with key from repository
+            return Ok(response);
+        }
     }
 }
