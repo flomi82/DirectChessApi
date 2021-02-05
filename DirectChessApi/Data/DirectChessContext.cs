@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DirectChessApi.Models;
+﻿using DirectChessApi.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DirectChessApi.Data
@@ -22,11 +18,16 @@ namespace DirectChessApi.Data
             modelBuilder.Entity<Game>()
                 .HasKey(g => g.GameId);
             modelBuilder.Entity<Game>()
+                .Property(g => g.Timestamp)
+                .HasDefaultValueSql("getdate()");
+            modelBuilder.Entity<Game>()
                 .ToTable("Games");
 
             modelBuilder.Entity<Move>()
-                .HasKey(m => new { m.GameId, m.Number });
-
+                .HasKey(m => new { m.GameId, m.Timestamp });
+            modelBuilder.Entity<Move>()
+                .Property(m => m.Timestamp)
+                .HasDefaultValueSql("getdate()");
             modelBuilder.Entity<Move>()
                 .ToTable("Moves");
         }

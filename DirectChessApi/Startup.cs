@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DirectChessApi.Data;
+using DirectChessApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +34,9 @@ namespace DirectChessApi
                 options.UseSqlServer(Configuration.GetConnectionString("DirectChess")));
 
             services.AddSwaggerGen();
+
+            services.AddSingleton<IRandomService, RandomService>();
+            services.AddScoped<IDirectChessRepository, DirectChessRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,14 +52,14 @@ namespace DirectChessApi
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseMvc();
-
+            app.UseStaticFiles();
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
+            app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
             });
+
+            app.UseHttpsRedirection();
+            app.UseMvc();
         }
     }
 }
